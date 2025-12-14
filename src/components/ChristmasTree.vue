@@ -86,6 +86,23 @@ const handleDecorationDensityUpdate = (val: number) => {
   decorationDensity.value = val;
 };
 
+const backgroundImage = ref<string | null>(null);
+const backgroundVideo = ref<string | null>(null);
+
+const handleBgImageUpdate = (src: string) => {
+  backgroundImage.value = src || null;
+  if (src) {
+    backgroundVideo.value = null;
+  }
+};
+
+const handleBgVideoUpdate = (src: string) => {
+  backgroundVideo.value = src || null;
+  if (src) {
+    backgroundImage.value = null;
+  }
+};
+
 const handleAutoRotateUpdate = (val: boolean) => {
   autoRotate.value = val;
   if (controls) controls.autoRotate = val;
@@ -489,6 +506,20 @@ onUnmounted(() => {
 
 <template>
   <div class="canvas-container">
+    <div 
+      v-if="backgroundImage" 
+      class="bg-image" 
+      :style="{ backgroundImage: `url(${backgroundImage})` }"
+    ></div>
+    <video
+      v-if="backgroundVideo"
+      class="bg-video"
+      :src="backgroundVideo"
+      autoplay
+      muted
+      loop
+      playsinline
+    ></video>
     <canvas ref="canvasRef"></canvas>
     
     <!-- UI Overlay Placeholders -->
@@ -516,6 +547,8 @@ onUnmounted(() => {
       :autoRotate="autoRotate"
       @update:dispersion="handleControlUpdate"
       @update:autoRotate="handleAutoRotateUpdate"
+      @update:bgImage="handleBgImageUpdate"
+      @update:bgVideo="handleBgVideoUpdate"
       @toggle-music="handleToggleMusic"
       @update:bloom="handleBloomUpdate"
       @update:twinkle="handleTwinkleUpdate"
@@ -576,11 +609,32 @@ onUnmounted(() => {
   to { text-shadow: 0 0 40px rgba(255, 215, 0, 0.8), 0 0 10px rgba(255, 255, 255, 0.8); }
 }
 
+.bg-image,
+.bg-video {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.bg-image {
+  background-size: cover;
+  background-position: center;
+}
+
+.bg-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 canvas {
   display: block;
   width: 100%;
   height: 100%;
   outline: none;
+  position: relative;
+  z-index: 1;
 }
 
 .ui-layer {

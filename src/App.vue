@@ -14,7 +14,7 @@ body {
   overflow: hidden;
   background-color: #0a0a1a;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  cursor: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMjAgMjJINEMxMiAyMiAxMiAyIDEyIDJaIiBmaWxsPSIjRkY0NjQ2Ii8+CjxjaXJjbGUgY3g9IjEyIiBjeT0iOCIgcj0iMyIgZmlsbD0iI0ZGRkZGRiIvPgo8L3N2Zz4=') 12 12, auto;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 32 32'><path d='M16 2 L26 22 H6 Z' fill='%23D42426'/><circle cx='16' cy='8' r='4' fill='white'/><rect x='4' y='20' width='24' height='6' rx='2' fill='white'/></svg>") 16 16, auto;
 }
 
 a,

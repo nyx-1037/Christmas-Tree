@@ -19,7 +19,9 @@ const emit = defineEmits([
   'update:snowDensity',
   'update:snowSpeed',
   'update:treeDensity',
-  'update:decorationDensity'
+  'update:decorationDensity',
+  'update:bgImage',
+  'update:bgVideo'
 ]);
 
 const store = useOrnamentStore();
@@ -111,6 +113,36 @@ const toggleMusic = () => {
   emit('toggle-music', isMusicPlaying.value);
 };
 
+const handleBgImageUpload = (event: Event) => {
+  const files = (event.target as HTMLInputElement).files;
+  if (files && files[0]) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const base64 = e.target?.result as string;
+      if (base64) {
+        emit('update:bgImage', base64);
+        emit('update:bgVideo', '');
+      }
+    };
+    reader.readAsDataURL(files[0]);
+  }
+};
+
+const handleBgVideoUpload = (event: Event) => {
+  const files = (event.target as HTMLInputElement).files;
+  if (files && files[0]) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const base64 = e.target?.result as string;
+      if (base64) {
+        emit('update:bgVideo', base64);
+        emit('update:bgImage', '');
+      }
+    };
+    reader.readAsDataURL(files[0]);
+  }
+};
+
 const togglePanel = () => {
   isPanelOpen.value = !isPanelOpen.value;
 };
@@ -127,7 +159,6 @@ const togglePanel = () => {
       <div class="panel-content">
       <div class="panel-header">
          <h3>Control Center / 控制中心</h3>
-         <button class="close-btn" @click="togglePanel" v-if="isPanelOpen">✖</button>
       </div>
       
       <!-- Dispersion -->
@@ -258,7 +289,20 @@ const togglePanel = () => {
         </button>
       </div>
 
-        <div class="info-group">
+      <!-- Background Image / Video -->
+      <div class="control-group">
+        <label>Background (背景图片 / 视频)</label>
+        <div class="upload-btn-wrapper">
+          <button class="btn-upload">Upload Image 背景图</button>
+          <input type="file" accept="image/*" @change="handleBgImageUpload" />
+        </div>
+        <div class="upload-btn-wrapper" style="margin-top: 8px;">
+          <button class="btn-upload">Upload Video 背景视频</button>
+          <input type="file" accept="video/*" @change="handleBgVideoUpload" />
+        </div>
+      </div>
+
+      <div class="info-group">
           <p>Scroll to explode/collapse (滚动展开)</p>
           <p>Click ornaments to view (点击装饰)</p>
         </div>
